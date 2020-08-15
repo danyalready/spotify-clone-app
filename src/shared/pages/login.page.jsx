@@ -10,7 +10,7 @@ export default function Login() {
   return (
     <Box
       shadow='md'
-      margin='auto'
+      margin='2rem auto'
       padding='1rem'
       maxWidth='500px'
       borderWidth='1px'
