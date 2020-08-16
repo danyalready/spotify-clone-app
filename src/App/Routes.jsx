@@ -1,11 +1,24 @@
 import React, { lazy, Suspense } from 'react'
 import { Switch, Route } from 'react-router-dom'
-const Home = lazy(() => import('shared/pages/home.page'))
+
 const Login = lazy(() => import('shared/pages/login.page'))
+const Home = lazy(() => import('shared/pages/home.page'))
+const Category = lazy(() => import('shared/pages/category.page'))
 
 export default function Routes() {
   return (
     <Switch>
+      <Route
+        exact
+        strict
+        path='/login'
+        render={() => (
+          <Suspense fallback={<p>Loading ...</p>}>
+            <Login />
+          </Suspense>
+        )}
+      />
+
       <Route
         exact
         strict
@@ -19,10 +32,10 @@ export default function Routes() {
       <Route
         exact
         strict
-        path='/login'
+        path='/:category'
         render={() => (
           <Suspense fallback={<p>Loading ...</p>}>
-            <Login />
+            <Category />
           </Suspense>
         )}
       />

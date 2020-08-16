@@ -1,29 +1,36 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { useStateValue } from 'shared/hooks'
 import { Box, Flex, Image, Button } from '@chakra-ui/core'
-import logo from 'shared/assets/logo.png'
+import { removeAuthToken } from 'shared/utils/authToken'
 import * as types from 'shared/constants/types'
+import logo from 'shared/assets/logo.png'
 
-function SwitchButtons({ loggedIn, dispatch }) {
+function SwitchButtons({ user, dispatch }) {
   const logOut = () => {
+    dispatch({ type: types.SET_USER, payload: null })
     dispatch({ type: types.SET_UNAUTHENTICATED })
+    removeAuthToken()
   }
 
-  return loggedIn && <Button onClick={logOut}>Log out</Button>
+  return user && <Button onClick={logOut}>Log out</Button>
 }
 
 function Navbar(props) {
   return (
     <Box height='76px' bg='gray.700' shadow='0 1px 10px 1px #1DB954'>
       <Flex
-        margin='auto'
-        width='900px'
+        margin='0 auto'
+        padding='0 1rem'
+        maxWidth='900px'
         height='100%'
         display='flex'
         alignItems='center'
         justifyContent='space-between'
       >
-        <Image alt='spotify-logo' src={logo} size='55px' />
+        <Link to='/'>
+          <Image alt='spotify-logo' src={logo} size='55px' />
+        </Link>
         <Flex alignItems='center' justifyContent='space-evenly'>
           <SwitchButtons {...props} />
         </Flex>
@@ -33,11 +40,11 @@ function Navbar(props) {
 }
 
 export default function Index({ children }) {
-  const [{ loggedIn }, dispatch] = useStateValue()
+  const [{ user }, dispatch] = useStateValue()
 
   return (
     <Box>
-      <Navbar loggedIn={loggedIn} dispatch={dispatch} />
+      <Navbar user={user} dispatch={dispatch} />
       <Box maxWidth='900px' margin='auto'>
         {children}
       </Box>

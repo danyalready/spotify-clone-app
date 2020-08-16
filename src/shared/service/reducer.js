@@ -1,9 +1,9 @@
 import * as type from 'shared/constants/types'
 
 export const initialState = {
-  loggedIn: false,
+  user: null,
+  authenticated: false,
   categories: [],
-  playlists: [],
 }
 
 const reducer = (state, action) => {
@@ -11,28 +11,28 @@ const reducer = (state, action) => {
   console.log('ACTION: ', action)
 
   switch (action.type) {
+    case type.SET_USER:
+      return {
+        ...state,
+        user: action.payload,
+      }
+
     case type.SET_AUTHENTICATED:
       return {
         ...state,
-        loggedIn: true,
+        authenticated: true,
       }
 
     case type.SET_UNAUTHENTICATED:
       return {
         ...state,
-        loggedIn: false,
+        authenticated: false,
       }
 
     case type.SET_CATEGORIES:
       return {
         ...state,
         categories: action.payload,
-      }
-
-    case type.SET_PLAYLISTS:
-      return {
-        ...state,
-        playlists: action.payload,
       }
 
     default:

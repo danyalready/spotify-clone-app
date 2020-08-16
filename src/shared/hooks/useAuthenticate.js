@@ -1,14 +1,18 @@
 import { useEffect } from 'react'
-import { getTokenFromResponse } from 'shared/service/spotify'
 import { useHistory } from 'react-router-dom'
-import * as types from 'shared/constants/types'
+import { getTokenFromResponse } from 'shared/service/spotify'
 import {
   getAuthToken,
   storeAuthToken,
   removeAuthToken,
 } from 'shared/utils/authToken'
 
-export const useAuthenticate = (loggedIn, dispatch) => {
+import * as types from 'shared/constants/types'
+
+import api from 'shared/utils/api'
+import url from 'shared/constants/urls'
+
+export const useAuthenticate = (user, dispatch) => {
   const history = useHistory()
 
   useEffect(() => {
@@ -18,14 +22,27 @@ export const useAuthenticate = (loggedIn, dispatch) => {
       if (!token) {
         history.push('/login')
       } else {
-        window.location.hash = ''
         storeAuthToken(token)
-        dispatch({ type: types.SET_AUTHENTICATED })
+        window.location.hash = ''
       }
     }
 
-    //  TODO: Send request to spotify server to get token validation message
+    // Gettin account credentials ...
+    if (!user) {
+      api
+        .get(url.user)
+        .then((data) => {
+          dispatch({ type: types.SET_AUTHENTICATED })
+          dispatch({ type: types.SET_USER, payload: data.data })
+        })
+        .catch((err) => {
+          console.log('USER ERROR: ', err)
+          dispatch({ type: types.SET_UNAUTHENTICATED })
+          dispatch({ type: types.SET_USER, payload: null })
+          removeAuthToken()
+        })
+    }
 
     // eslint-disable-next-line
-  }, [loggedIn])
+  }, [user])
 }
