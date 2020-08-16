@@ -8,4 +8,5 @@
 - [x] setup spotidy clientID configurations
 - [x] connect to the spotify-web-api-js
 - [x] check for token validation date
-- [ ] migrate authentication proccess to Auth component
+- [x] migrate authentication proccess to Auth component
+- [ ] render category playlist
