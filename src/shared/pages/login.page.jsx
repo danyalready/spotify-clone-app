@@ -1,8 +1,11 @@
 import React from 'react'
 import { Box, Text, Button } from '@chakra-ui/core'
 import { accessUrl } from 'shared/service/spotify'
+import { useChangeTitle } from 'shared/hooks'
 
 export default function Login() {
+  useChangeTitle('React Spotify / Login')
+
   const loginFunction = () => {
     window.location.href = accessUrl
   }

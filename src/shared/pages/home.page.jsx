@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useStateValue } from 'shared/hooks'
+import { useChangeTitle, useStateValue } from 'shared/hooks'
 import { SimpleGrid, Text } from '@chakra-ui/core'
 import { Category } from 'shared/components'
 import { Content } from 'shared/containers'
@@ -16,6 +16,8 @@ function Categories({ categories }) {
 }
 
 export default function Index() {
+  useChangeTitle('React Spotify')
+
   const history = useHistory()
   const [{ categories }, dispatch] = useStateValue()
 

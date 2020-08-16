@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useStateValue } from 'shared/hooks'
+import { useChangeTitle, useStateValue } from 'shared/hooks'
 import { Box, Image, Text } from '@chakra-ui/core'
 import { Content } from 'shared/containers'
 import api from 'shared/utils/api'
@@ -33,6 +33,10 @@ export default function Index() {
   const params = useParams()
   const [{ categories }, dispatch] = useStateValue()
   const [category, setCategory] = useState(null)
+
+  useChangeTitle(
+    category ? `React Spotify / ${category.name}` : 'React Spotify'
+  )
 
   useEffect(() => {
     if (!categories.length) {
