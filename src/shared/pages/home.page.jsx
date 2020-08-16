@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useAuthenticate, useStateValue } from 'shared/hooks'
+import { useStateValue } from 'shared/hooks'
 import { SimpleGrid, Text } from '@chakra-ui/core'
 import { Category } from 'shared/components'
 import { Content } from 'shared/containers'
@@ -17,9 +17,7 @@ function Categories({ categories }) {
 
 export default function Index() {
   const history = useHistory()
-  const [{ user, categories }, dispatch] = useStateValue()
-
-  useAuthenticate(user, dispatch)
+  const [{ categories }, dispatch] = useStateValue()
 
   // Getting item categories ...
   // TODO: needed in optimized way!!!

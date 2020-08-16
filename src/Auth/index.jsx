@@ -1,26 +1,9 @@
-import React from 'react'
-import { Box, Text, Button } from '@chakra-ui/core'
-import { accessUrl } from 'shared/service/spotify'
+import { useStateValue, useAuthenticate } from 'shared/hooks'
 
 export default function Authenticate() {
-  const loginFunction = () => {
-    window.location.href = accessUrl
-  }
+  const [{ user }, dispatch] = useStateValue()
 
-  return (
-    <Box
-      shadow='md'
-      margin='2rem auto'
-      padding='1rem'
-      maxWidth='500px'
-      borderWidth='1px'
-    >
-      <Text fontSize='5xl' fontWeight='900' textAlign='center'>
-        Login to Spotify
-      </Text>
-      <Button variantColor='green' size='lg' onClick={loginFunction}>
-        Login
-      </Button>
-    </Box>
-  )
+  useAuthenticate(user, dispatch)
+
+  return null
 }
