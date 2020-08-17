@@ -5,6 +5,8 @@ export const initialState = {
   authenticated: false,
   categories: [],
   playlists: [],
+  playlist: null,
+  tracks: [],
 }
 
 const reducer = (state, action) => {
@@ -46,6 +48,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         playlists: [action.payload, ...state.playlists],
+      }
+
+    case type.SET_PLAYLIST:
+      return {
+        ...state,
+        playlist: action.payload,
       }
 
     default:

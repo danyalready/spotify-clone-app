@@ -25,8 +25,11 @@ export const useGetData = (url, condition, type, dependency) => {
             case types.SET_PLAYLISTS:
               dispatch({ type, payload: data.data.playlists })
               break
+            case types.SET_PLAYLIST:
+              dispatch({ type, payload: data.data })
+              break
             default:
-              return console.log(data)
+              return data
           }
         })
         .catch((err) => {

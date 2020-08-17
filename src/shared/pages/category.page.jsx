@@ -1,12 +1,47 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useParams, Link } from 'react-router-dom'
 import { useChangeTitle, useStateValue, useGetData } from 'shared/hooks'
-import { Box, Image, Text } from '@chakra-ui/core'
+import { Box, Text } from '@chakra-ui/core'
+import { Header } from 'shared/components'
 import { Content } from 'shared/containers'
 import url from 'shared/constants/urls'
 import * as type from 'shared/constants/types'
+import album from 'shared/assets/album.jpg'
 
-function Playlist({ category_id, playlists }) {
+function Playlist({ item }) {
+  const { category } = useParams()
+  const [image, setImage] = useState(album)
+
+  const img = new Image()
+  img.src = item.images[0].url
+  img.onload = () => setImage(img.src)
+
+  return (
+    <Link
+      style={{ textDecoration: 'none', color: 'black' }}
+      to={`/${category}/${item.id}`}
+    >
+      <Box display='flex' shadow='md' margin='1rem 0'>
+        <Box maxWidth='137px' minWidth='137px' width='100%'>
+          <img
+            alt={`playlist-${item.name}`}
+            src={image}
+            width='100%'
+            height='auto'
+          />
+        </Box>
+        <Box padding='0 1rem' overflow='hidden'>
+          <Text fontSize='3xl' fontWeight='900'>
+            {item.name}
+          </Text>
+          <Text>{item.description}</Text>
+        </Box>
+      </Box>
+    </Link>
+  )
+}
+
+function Playlists({ category_id, playlists }) {
   const foundPlaylists = playlists.find(
     (playlist) =>
       playlist.href.split('categories/')[1].split('/')[0] === category_id
@@ -17,28 +52,13 @@ function Playlist({ category_id, playlists }) {
     type.SET_PLAYLISTS
   )
 
-  return <Box></Box>
-}
-
-function Category({ item }) {
-  return item ? (
-    <Box display='flex' flexDirection={['column-reverse', 'row']}>
-      <Box maxWidth={['100%', item.icons[0].width]} height='auto'>
-        <Image
-          alt={`category-${item.id}`}
-          src={item.icons[0].url}
-          width='100%'
-          height='auto'
-        />
-      </Box>
-      <Box marginLeft={['0', '2rem']}>
-        <Text fontSize='5xl' fontWeight={900}>
-          {item.name}
-        </Text>
-      </Box>
+  return (
+    <Box>
+      {foundPlaylists &&
+        foundPlaylists.items.map((playlist, index) => (
+          <Playlist key={index} item={playlist} />
+        ))}
     </Box>
-  ) : (
-    <Text fontSize='4xl'>Loading ...</Text>
   )
 }
 
@@ -62,8 +82,11 @@ export default function Index() {
 
   return (
     <Content>
-      <Category item={foundCategory} />
-      <Playlist category_id={params.category} playlists={playlists} />
+      <Text fontSize='3xl' fontWeight='900'>
+        Playlists
+      </Text>
+      <Header item={foundCategory} />
+      <Playlists category_id={params.category} playlists={playlists} />
     </Content>
   )
 }
