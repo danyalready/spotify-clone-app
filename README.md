@@ -16,4 +16,4 @@
 - [x] render category playlist
 - [ ] render tracks of the playlist
 - [ ] player component
-- [ ] create img loader hook
+- [x] create img loader hook

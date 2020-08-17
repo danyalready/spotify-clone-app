@@ -1,17 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Box, Text } from '@chakra-ui/core'
-import album from 'shared/assets/album.jpg'
+import { useImageLoading } from 'shared/hooks'
 
 export default function Index({ item }) {
-  const [image, setImage] = useState(album)
-
-  useEffect(() => {
-    if (item) {
-      const img = new Image()
-      img.src = item.icons[0].url
-      img.onload = () => setImage(img.src)
-    }
-  }, [item])
+  const image = useImageLoading(item ? item.icons[0].url : null)
 
   return item ? (
     <Box display='flex' flexDirection={['column-reverse', 'row']}>
