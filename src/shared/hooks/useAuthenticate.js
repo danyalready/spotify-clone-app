@@ -6,9 +6,7 @@ import {
   storeAuthToken,
   removeAuthToken,
 } from 'shared/utils/authToken'
-
 import * as types from 'shared/constants/types'
-
 import api from 'shared/utils/api'
 import url from 'shared/constants/urls'
 

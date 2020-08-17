@@ -4,6 +4,7 @@ export const initialState = {
   user: null,
   authenticated: false,
   categories: [],
+  playlists: [],
 }
 
 const reducer = (state, action) => {
@@ -33,6 +34,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         categories: action.payload,
+      }
+
+    case type.SET_CATEGORY:
+      return {
+        ...state,
+        categories: [action.payload],
       }
 
     default:
