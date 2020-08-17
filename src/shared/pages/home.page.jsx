@@ -13,10 +13,9 @@ function Categories({ categories }) {
 }
 
 export default function Index() {
-  useChangeTitle('React Spotify')
-
   const [{ categories }] = useStateValue()
 
+  useChangeTitle('React Spotify')
   useGetData(url.categories, categories.length <= 1, types.SET_CATEGORIES)
 
   return (

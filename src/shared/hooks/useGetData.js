@@ -23,7 +23,7 @@ export const useGetData = (url, condition, type, dependency) => {
               dispatch({ type, payload: data.data })
               break
             case types.SET_PLAYLISTS:
-              dispatch({ type, payload: data.data })
+              dispatch({ type, payload: data.data.playlists })
               break
             default:
               return console.log(data)

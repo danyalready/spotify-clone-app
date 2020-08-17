@@ -42,6 +42,12 @@ const reducer = (state, action) => {
         categories: [action.payload],
       }
 
+    case type.SET_PLAYLISTS:
+      return {
+        ...state,
+        playlists: [action.payload, ...state.playlists],
+      }
+
     default:
       return state
   }
