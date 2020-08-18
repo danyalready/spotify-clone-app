@@ -2,9 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useStateValue } from 'shared/hooks'
 import { Box, Flex, Image, Button } from '@chakra-ui/core'
+import { Player } from 'shared/components'
 import { removeAuthToken } from 'shared/utils/authToken'
 import * as types from 'shared/constants/types'
-import logo from 'shared/assets/logo.png'
+import { logo } from 'shared/assets'
 
 function SwitchButtons({ user, dispatch }) {
   const logOut = () => {
@@ -18,7 +19,14 @@ function SwitchButtons({ user, dispatch }) {
 
 function Navbar(props) {
   return (
-    <Box height='76px' bg='gray.700' shadow='0 1px 10px 1px #1DB954'>
+    <Box
+      position='fixed'
+      width='100%'
+      height='76px'
+      bg='gray.700'
+      shadow='0 0 25px 5px #1DB954'
+      zIndex='1000'
+    >
       <Flex
         margin='0 auto'
         padding='0 1rem'
@@ -28,7 +36,7 @@ function Navbar(props) {
         alignItems='center'
         justifyContent='space-between'
       >
-        <Link to='/'>
+        <Link to={props.user ? '/' : '#'}>
           <Image alt='spotify-logo' src={logo} size='55px' />
         </Link>
         <Flex alignItems='center' justifyContent='space-evenly'>
@@ -45,9 +53,10 @@ export default function Index({ children }) {
   return (
     <Box>
       <Navbar user={user} dispatch={dispatch} />
-      <Box maxWidth='900px' margin='auto'>
+      <Box maxWidth='900px' margin='auto' padding='4rem 0'>
         {children}
       </Box>
+      <Player />
     </Box>
   )
 }

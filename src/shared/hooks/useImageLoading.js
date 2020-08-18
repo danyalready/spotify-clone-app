@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import album from 'shared/assets/album.jpg'
+import { album } from 'shared/assets'
 
 export const useImageLoading = (src) => {
   const [image, setImage] = useState(album)

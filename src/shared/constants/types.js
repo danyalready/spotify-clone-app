@@ -8,3 +8,5 @@ export const SET_CATEGORY = 'SET_CATEGORY'
 
 export const SET_PLAYLISTS = 'SET_PLAYLISTS'
 export const SET_PLAYLIST = 'SET_PLAYLIST'
+
+export const SET_TRACKS = 'SET_TRACKS'

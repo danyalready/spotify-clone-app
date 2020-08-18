@@ -1,2 +1,2 @@
-export { default as Layout } from './Layout'
-export { default as Content } from './Content'
+export { default as Layout } from './layout.container'
+export { default as Content } from './content.container'

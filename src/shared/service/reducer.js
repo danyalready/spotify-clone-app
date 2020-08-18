@@ -56,6 +56,12 @@ const reducer = (state, action) => {
         playlist: action.payload,
       }
 
+    case type.SET_TRACKS:
+      return {
+        ...state,
+        tracks: action.payload,
+      }
+
     default:
       return state
   }

@@ -1,16 +1,26 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { Text } from '@chakra-ui/core'
-import { Header } from 'shared/components'
+import { Text, Box } from '@chakra-ui/core'
+import { Header, Track } from 'shared/components'
 import { Content } from 'shared/containers'
 import { useStateValue } from 'shared/hooks'
 import { useGetData } from 'shared/hooks'
 import url from 'shared/constants/urls'
 import * as type from 'shared/constants/types'
 
+function Tracks({ tracks }) {
+  return (
+    <Box>
+      {tracks.map((track, index) => (
+        <Track key={index} item={track} />
+      ))}
+    </Box>
+  )
+}
+
 export default function Index() {
   const { category, playlist_id } = useParams()
-  const [{ playlists, playlist }, dispatch] = useStateValue()
+  const [{ playlists, playlist, tracks }, dispatch] = useStateValue()
 
   // Setting up the playlist according to the plastlists
   // Made to avoid extra API requests
@@ -29,6 +39,7 @@ export default function Index() {
 
     // eslint-disable-next-line
   }, [])
+  useGetData(url.tracks(playlist_id), true, type.SET_TRACKS)
 
   return (
     <Content>
@@ -44,6 +55,7 @@ export default function Index() {
           }
         }
       />
+      <Tracks tracks={tracks} />
     </Content>
   )
 }

@@ -28,8 +28,11 @@ export const useGetData = (url, condition, type, dependency) => {
             case types.SET_PLAYLIST:
               dispatch({ type, payload: data.data })
               break
+            case types.SET_TRACKS:
+              dispatch({ type, payload: data.data.items })
+              break
             default:
-              return data
+              return console.log(data)
           }
         })
         .catch((err) => {
