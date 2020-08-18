@@ -14,6 +14,7 @@
 - [x] migrate authentication proccess to Auth component
 - [x] store playlist in context according to the playlist existance
 - [x] render category playlist
-- [ ] render tracks of the playlist
+- [x] render tracks of the playlist
 - [ ] player component
 - [x] create img loader hook
+- [ ] fetch tracks and cache them
