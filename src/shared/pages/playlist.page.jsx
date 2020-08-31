@@ -44,7 +44,7 @@ export default function Index() {
   return (
     <Content>
       <Text fontSize='3xl' fontWeight='900'>
-        Playlist
+        Playlist:
       </Text>
       <Header
         item={

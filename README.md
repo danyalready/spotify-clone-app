@@ -15,6 +15,7 @@
 - [x] store playlist in context according to the playlist existance
 - [x] render category playlist
 - [x] render tracks of the playlist
-- [ ] player component
+- [x] player component
 - [x] create img loader hook
 - [ ] fetch tracks and cache them
+- [ ] add some loading skeletons

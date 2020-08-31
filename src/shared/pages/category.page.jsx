@@ -76,7 +76,7 @@ export default function Index() {
   return (
     <Content>
       <Text fontSize='3xl' fontWeight='900'>
-        Playlists
+        Playlists:
       </Text>
       <Header item={foundCategory} />
       <Playlists category_id={category} playlists={playlists} />

@@ -53,7 +53,7 @@ export default function Index({ children }) {
   return (
     <Box>
       <Navbar user={user} dispatch={dispatch} />
-      <Box maxWidth='900px' margin='auto' padding='4rem 0'>
+      <Box maxWidth='900px' margin='auto' padding='120px 1rem'>
         {children}
       </Box>
       <Player />

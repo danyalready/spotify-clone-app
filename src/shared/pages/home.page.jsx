@@ -21,7 +21,7 @@ export default function Index() {
   return (
     <Content>
       <Text fontSize='3xl' fontWeight='900'>
-        Categories
+        Categories:
       </Text>
       <SimpleGrid minChildWidth='150px' spacing='20px'>
         <Categories categories={categories} />
