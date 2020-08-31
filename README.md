@@ -4,7 +4,7 @@
 
 - [x] redirect user to login page after logOut function in Layout.js
 - [x] fix the useAuthenticate hook
-- [ ] fix loading of tags as text in playlist component
+- [x] fix loading of tags as text in playlist component
 
 ## Steps
 

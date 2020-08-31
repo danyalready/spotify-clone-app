@@ -33,7 +33,7 @@ function Playlist({ item }) {
           <Text fontSize='3xl' fontWeight='900'>
             {item.name}
           </Text>
-          <Text>{item.description}</Text>
+          <Text dangerouslySetInnerHTML={{ __html: item.description }}></Text>
         </Box>
       </Box>
     </Link>
