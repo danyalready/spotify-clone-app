@@ -9,18 +9,20 @@ import url from 'shared/constants/urls'
 import * as type from 'shared/constants/types'
 
 function Tracks({ tracks }) {
-  return (
+  return tracks ? (
     <Box>
       {tracks.map((track, index) => (
         <Track key={index} item={track} />
       ))}
     </Box>
+  ) : (
+    <p>Loading ...</p>
   )
 }
 
 export default function Index() {
   const { category, playlist_id } = useParams()
-  const [{ playlists, playlist, tracks }, dispatch] = useStateValue()
+  const [{ playlists, playlist, cachedTracks }, dispatch] = useStateValue()
 
   // Setting up the playlist according to the plastlists
   // Made to avoid extra API requests
@@ -39,7 +41,11 @@ export default function Index() {
 
     // eslint-disable-next-line
   }, [])
-  useGetData(url.tracks(playlist_id), true, type.SET_TRACKS)
+  useGetData(
+    url.tracks(playlist_id),
+    !cachedTracks[url.tracks(playlist_id)],
+    type.CACHE_TRACKS
+  )
 
   return (
     <Content>
@@ -55,7 +61,7 @@ export default function Index() {
           }
         }
       />
-      <Tracks tracks={tracks} />
+      <Tracks tracks={cachedTracks[url.tracks(playlist_id)]} />
     </Content>
   )
 }

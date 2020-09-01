@@ -17,5 +17,6 @@
 - [x] render tracks of the playlist
 - [x] player component
 - [x] create img loader hook
-- [ ] fetch tracks and cache them
+- [x] fetch tracks and cache them
 - [ ] add some loading skeletons
+- [ ] integrate an API to player component

@@ -35,7 +35,16 @@ export default function Index({ item }) {
             Duration: {toMinAndSec(item.track.duration_ms)}
           </Text>
         </Box>
-        <Text>Artists: {item.track.artists.map((artist) => artist.name)}</Text>
+        <Text>
+          Artists:{' '}
+          {item.track.artists.map((artist, index, self) => {
+            if (index === self.length - 1) {
+              return artist.name
+            } else {
+              return artist.name + ', '
+            }
+          })}
+        </Text>
       </Box>
     </Box>
   )

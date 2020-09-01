@@ -21,6 +21,7 @@ function Navbar(props) {
   return (
     <Box
       position='fixed'
+      top='0'
       width='100%'
       height='76px'
       bg='gray.700'
@@ -53,7 +54,7 @@ export default function Index({ children }) {
   return (
     <Box>
       <Navbar user={user} dispatch={dispatch} />
-      <Box maxWidth='900px' margin='auto' padding='120px 1rem'>
+      <Box maxWidth='900px' margin='120px auto' padding='0 1rem'>
         {children}
       </Box>
       <Player />

@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useStateValue, useSetValue } from 'shared/hooks'
 import {
   Grid,
   Box,
@@ -19,9 +20,21 @@ import {
   volumeMax,
 } from 'shared/assets'
 import { album } from 'shared/assets'
+import * as type from 'shared/constants/types'
 
 function SoundSlider() {
-  const loudStatus = useState(volumeMax)
+  const [loudStatus, setLoudStatus] = useState(volumeMax)
+  const loudValue = useSetValue(70)
+
+  useEffect(() => {
+    if (loudValue.value === 0) {
+      setLoudStatus(volumeMute)
+    } else if (loudValue.value <= 45) {
+      setLoudStatus(volumeMin)
+    } else {
+      setLoudStatus(volumeMax)
+    }
+  }, [loudValue])
 
   return (
     <Box
@@ -39,7 +52,7 @@ function SoundSlider() {
       >
         <Button
           cursor='pointer'
-          backgroundImage={`url(${loudStatus[0]})`}
+          backgroundImage={`url(${loudStatus})`}
           backgroundRepeat='no-repeat'
           backgroundPosition='center'
           backgroundSize='20px'
@@ -47,7 +60,7 @@ function SoundSlider() {
           border='none'
           borderRadius='50%'
         />
-        <Slider color='green' defaultValue={70} margin='0 1rem'>
+        <Slider color='green' margin='0 1rem' {...loudValue}>
           <SliderTrack />
           <SliderFilledTrack />
           <SliderThumb />
@@ -69,7 +82,7 @@ function CurrentTrack({ item }) {
   )
 }
 
-function PlayerController() {
+function PlayerController({ isPaused, dispatch }) {
   // TODO: needed in optimization
   return (
     <Box
@@ -94,20 +107,20 @@ function PlayerController() {
         cursor='pointer'
         width='55px'
         height='55px'
-        backgroundImage={`url(${play})`}
+        backgroundImage={`url(${isPaused ? play : pause})`}
         backgroundRepeat='no-repeat'
         backgroundPosition='center'
         backgroundSize='20px'
         border='none'
         borderRadius='50%'
         backgroundColor='#1DB954'
+        onClick={() => dispatch({ type: type.SET_PAUSED })}
       />
       <Button
         cursor='pointer'
         backgroundImage={`url(${next})`}
         backgroundRepeat='no-repeat'
         backgroundPosition='center'
-        oordensch
         backgroundSize='15px'
         backgroundColor='rgba(0,0,0,0)'
         border='none'
@@ -132,6 +145,9 @@ function PlayerSlider() {
 }
 
 export default function Index() {
+  const [{ track, isPaused }, dispatch] = useStateValue()
+  const controls = { track, isPaused, dispatch }
+
   return (
     <Grid
       columns={3}
@@ -148,8 +164,8 @@ export default function Index() {
         <CurrentTrack item={{ id: 123123, name: 'Drake' }} />
       </Box>
       <Box height='100%'>
-        <PlayerController />
-        <PlayerSlider />
+        <PlayerController {...controls} />
+        <PlayerSlider {...controls} />
       </Box>
       <Box height='100%' display={['none', 'none', 'block']}>
         <SoundSlider />

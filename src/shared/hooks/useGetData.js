@@ -7,7 +7,7 @@ import { removeAuthToken } from 'shared/utils/authToken'
 
 export const useGetData = (url, condition, type, dependency) => {
   // eslint-disable-next-line
-  const [state, dispatch] = useStateValue()
+  const [{}, dispatch] = useStateValue()
   const history = useHistory()
 
   useEffect(() => {
@@ -28,8 +28,11 @@ export const useGetData = (url, condition, type, dependency) => {
             case types.SET_PLAYLIST:
               dispatch({ type, payload: data.data })
               break
-            case types.SET_TRACKS:
-              dispatch({ type, payload: data.data.items })
+            case types.CACHE_TRACKS:
+              dispatch({
+                type,
+                payload: { url, data: data.data.items },
+              })
               break
             default:
               return console.log(data)

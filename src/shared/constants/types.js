@@ -5,8 +5,9 @@ export const SET_UNAUTHENTICATED = 'SET_UNAUTHENTICATED'
 
 export const SET_CATEGORIES = 'SET_CATEGORIES'
 export const SET_CATEGORY = 'SET_CATEGORY'
-
 export const SET_PLAYLISTS = 'SET_PLAYLISTS'
 export const SET_PLAYLIST = 'SET_PLAYLIST'
+export const CACHE_TRACKS = 'CACHE_TRACKS'
 
-export const SET_TRACKS = 'SET_TRACKS'
+export const SET_TRACK = 'SET_TRACK'
+export const SET_PAUSED = 'SET_PAUSED'
