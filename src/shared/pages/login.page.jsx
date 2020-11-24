@@ -20,10 +20,16 @@ export default function Login() {
         maxWidth='500px'
         borderWidth='1px'
       >
-        <Text fontSize='5xl' fontWeight='900' textAlign='center'>
+        <Text 
+          fontSize='5xl' 
+          fontWeight='900' 
+          textAlign='center'>
           Login to Spotify
         </Text>
-        <Button variantColor='green' size='lg' onClick={loginFunction}>
+        <Button 
+          variantColor='green' 
+          size='lg' 
+          onClick={loginFunction}>
           Login
         </Button>
       </Box>

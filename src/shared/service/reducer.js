@@ -77,6 +77,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         track: action.payload,
+        isPaused: false,
       }
 
     case type.SET_PAUSED:

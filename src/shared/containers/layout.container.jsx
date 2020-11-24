@@ -38,9 +38,14 @@ function Navbar(props) {
         justifyContent='space-between'
       >
         <Link to={props.user ? '/' : '#'}>
-          <Image alt='spotify-logo' src={logo} size='55px' />
+          <Image 
+            alt='spotify-logo' 
+            src={logo} 
+            size='55px' />
         </Link>
-        <Flex alignItems='center' justifyContent='space-evenly'>
+        <Flex 
+          alignItems='center' 
+          justifyContent='space-evenly'>
           <SwitchButtons {...props} />
         </Flex>
       </Flex>
@@ -53,8 +58,13 @@ export default function Index({ children }) {
 
   return (
     <Box>
-      <Navbar user={user} dispatch={dispatch} />
-      <Box maxWidth='900px' margin='120px auto' padding='0 1rem'>
+      <Navbar 
+        user={user} 
+        dispatch={dispatch} />
+      <Box 
+        maxWidth='900px' 
+        margin='120px auto' 
+        padding='0 1rem'>
         {children}
       </Box>
       <Player />

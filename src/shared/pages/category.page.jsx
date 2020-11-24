@@ -6,7 +6,7 @@ import {
   useGetData,
   useImageLoading,
 } from 'shared/hooks'
-import { Box, Text } from '@chakra-ui/core'
+import { Box, Image, Text } from '@chakra-ui/core'
 import { Header } from 'shared/components'
 import { Content } from 'shared/containers'
 import url from 'shared/constants/urls'
@@ -20,20 +20,30 @@ function Playlist({ item }) {
       style={{ textDecoration: 'none', color: 'black' }}
       to={`/${category}/${item.id}`}
     >
-      <Box display='flex' shadow='md' margin='1rem 0'>
-        <Box maxWidth='137px' minWidth='137px' width='100%'>
-          <img
+      <Box 
+        display='flex' 
+        shadow='md' 
+        margin='1rem 0'>
+        <Box 
+          maxWidth='137px' 
+          minWidth='137px' 
+          width='100%'>
+          <Image
             alt={`playlist-${item.name}`}
             src={useImageLoading(item.images[0].url)}
             width='100%'
             height='auto'
           />
         </Box>
-        <Box padding='0 1rem' overflow='hidden'>
-          <Text fontSize='3xl' fontWeight='900'>
+        <Box 
+          padding='0 1rem' 
+          overflow='hidden'>
+          <Text 
+            fontSize='3xl' 
+            fontWeight='900'>
             {item.name}
           </Text>
-          <Text dangerouslySetInnerHTML={{ __html: item.description }}></Text>
+          <Text dangerouslySetInnerHTML={{ __html: item.description }} />
         </Box>
       </Box>
     </Link>
@@ -75,11 +85,15 @@ export default function Index() {
 
   return (
     <Content>
-      <Text fontSize='3xl' fontWeight='900'>
+      <Text 
+        fontSize='3xl' 
+        fontWeight='900'>
         Playlists:
       </Text>
       <Header item={foundCategory} />
-      <Playlists category_id={category} playlists={playlists} />
+      <Playlists 
+        category_id={category} 
+        playlists={playlists} />
     </Content>
   )
 }

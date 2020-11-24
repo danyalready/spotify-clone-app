@@ -20,4 +20,5 @@ const api = async (method, url, variable) => {
 
 export default {
   get: (...args) => api('get', ...args),
+  put: (...args) => api('put', ...args),
 }
