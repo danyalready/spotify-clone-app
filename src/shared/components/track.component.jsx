@@ -11,7 +11,7 @@ const icons = [
 ]
 
 function PlayButton({ item }) {
-  const [{}, dispatch] = useStateValue()
+  const [{}, dispatch] = useStateValue() // eslint-disable-line
 
   return (
     <Button

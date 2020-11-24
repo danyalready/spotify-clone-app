@@ -169,7 +169,7 @@ export default function Index() {
     if (!isPaused) {
       api.put('/me/player/play', { context_uri: track.track.uri })
     }
-  }, [track])
+  }, [track, isPaused])
 
   return track ? (
     <Grid
