@@ -49,7 +49,9 @@ export default function Index() {
 
   return (
     <Content>
-      <Text fontSize='3xl' fontWeight='900'>
+      <Text 
+        fontSize='3xl' 
+        fontWeight='900'>
         Playlist:
       </Text>
       <Header

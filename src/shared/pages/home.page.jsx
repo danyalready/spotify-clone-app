@@ -20,10 +20,14 @@ export default function Index() {
 
   return (
     <Content>
-      <Text fontSize='3xl' fontWeight='900'>
+      <Text 
+        fontSize='3xl' 
+        fontWeight='900'>
         Categories:
       </Text>
-      <SimpleGrid minChildWidth='150px' spacing='20px'>
+      <SimpleGrid 
+        minChildWidth='150px' 
+        spacing='20px'>
         <Categories categories={categories} />
       </SimpleGrid>
     </Content>

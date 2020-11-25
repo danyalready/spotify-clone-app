@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { useStateValue, useSetValue } from 'shared/hooks'
+import { 
+  useStateValue, 
+  useSetValue, 
+  useImageLoading,
+} from 'shared/hooks'
 import {
   Grid,
   Box,
@@ -19,8 +23,9 @@ import {
   volumeMin,
   volumeMax,
 } from 'shared/assets'
-import { album } from 'shared/assets'
 import * as type from 'shared/constants/types'
+import { toMinAndSec } from 'shared/utils/functions'
+import api from 'shared/utils/api'
 
 function SoundSlider() {
   const [loudStatus, setLoudStatus] = useState(volumeMax)
@@ -70,13 +75,17 @@ function SoundSlider() {
   )
 }
 
-function CurrentTrack({ item }) {
+function CurrentTrack({ track }) {
   return (
     <Box display='flex' alignItems='center'>
-      <Image src={album} alt='current-track' rounded='full' size='84px' />
+      <Image 
+        src={useImageLoading(track.track.album.images[1].url)} 
+        alt='current-track' 
+        rounded='full' 
+        size='84px' />
 
       <Box marginLeft='1rem'>
-        <Text fontWeight='900'>{item.name}</Text>
+        <Text fontWeight='900'>{track.track.name}</Text>
       </Box>
     </Box>
   )
@@ -130,16 +139,22 @@ function PlayerController({ isPaused, dispatch }) {
   )
 }
 
-function PlayerSlider() {
+function PlayerSlider({ track }) {
   return (
-    <Box width='100%' display='flex' alignItems='center'>
+    <Box 
+      width='100%' 
+      display='flex' 
+      alignItems='center'>
       <Text>00:00</Text>
-      <Slider color='green' defaultValue={0} margin='0 1rem'>
+      <Slider 
+        color='green' 
+        defaultValue={0} 
+        margin='0 1rem'>
         <SliderTrack />
         <SliderFilledTrack />
         <SliderThumb />
       </Slider>
-      <Text>00:00</Text>
+      <Text>{toMinAndSec(track.track.duration_ms)}</Text>
     </Box>
   )
 }
@@ -148,7 +163,15 @@ export default function Index() {
   const [{ track, isPaused }, dispatch] = useStateValue()
   const controls = { track, isPaused, dispatch }
 
-  return (
+  // Premium is required :(
+  // !!!!!!!Work is stoped!!!!!!!
+  useEffect(() => {
+    if (!isPaused) {
+      api.put('/me/player/play', { context_uri: track.track.uri })
+    }
+  }, [track, isPaused])
+
+  return track ? (
     <Grid
       columns={3}
       templateColumns={['1fr', '1fr', '1fr 2fr 1fr']}
@@ -160,16 +183,20 @@ export default function Index() {
       padding='.5rem'
       bg='white'
     >
-      <Box height='100%' display={['none', 'none', 'block']}>
-        <CurrentTrack item={{ id: 123123, name: 'Drake' }} />
+      <Box 
+        height='100%' 
+        display={['none', 'none', 'block']}>
+        <CurrentTrack track={track} />
       </Box>
       <Box height='100%'>
         <PlayerController {...controls} />
         <PlayerSlider {...controls} />
       </Box>
-      <Box height='100%' display={['none', 'none', 'block']}>
+      <Box 
+        height='100%' 
+        display={['none', 'none', 'block']}>
         <SoundSlider />
       </Box>
     </Grid>
-  )
+  ) : null
 }
