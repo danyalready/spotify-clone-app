@@ -3,9 +3,8 @@ import { useParams } from 'react-router-dom'
 import { Text, Box } from '@chakra-ui/core'
 import { Header, Track } from 'shared/components'
 import { Content } from 'shared/containers'
-import url from 'shared/constants/urls'
-import api from 'shared/utils/api'
 import { useQuery } from 'react-query'
+import { fetchPlaylists, fetchTracks } from 'shared/service/spotify-api'
 
 function Tracks({ tracks }) {
   return tracks ? (
@@ -20,9 +19,13 @@ function Tracks({ tracks }) {
 }
 
 export default function Index() {
-  const { playlist_id } = useParams()
-  const { playlist } = useQuery(['playlist', 'tracks'])
-  const { tracks } = useQuery(['tracks', playlist_id], api.get(url.tracks(playlist_id)))
+  const { category, playlist_id } = useParams()
+  const { data: playlists, isLoading } = useQuery(['playlists', category], fetchPlaylists)
+  const { data: tracks } = useQuery(['tracks', playlist_id], fetchTracks)
+
+  if (isLoading) return 'loading ...'
+  const playlist = playlists.find(item => item.id === playlist_id)
+
   return (
     <Content>
       <Text 

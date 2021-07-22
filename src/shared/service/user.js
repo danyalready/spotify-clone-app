@@ -4,9 +4,9 @@ import { removeAuthToken } from 'shared/utils/authToken'
 const UserContext = React.createContext()
 
 export function UserProvider({children}) {
-  const user = React.useState(null)
+  const authenticated = React.useState(false)
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={authenticated}>
       {children}
     </UserContext.Provider>
   )
@@ -19,6 +19,10 @@ export function useUserContext() {
 }
 
 export function logOut(dispatch) {
-  dispatch(null)
+  dispatch(false)
   removeAuthToken()
+}
+
+export function logIn(dispatch) {
+  dispatch(true)
 }

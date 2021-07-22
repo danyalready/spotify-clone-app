@@ -5,8 +5,7 @@ import { Box, Image, Text } from '@chakra-ui/core'
 import { useQuery } from 'react-query'
 import { Header } from 'shared/components'
 import { Content } from 'shared/containers'
-import url from 'shared/constants/urls'
-import api from 'shared/utils/api'
+import { fetchCategories, fetchPlaylists } from 'shared/service/spotify-api'
 
 function Playlist({ item }) {
   const { category } = useParams()
@@ -46,29 +45,26 @@ function Playlist({ item }) {
   )
 }
 
-function Playlists({ category_id, playlists }) {
-  const foundPlaylists = playlists.find(playlist =>
-    playlist.href.split('categories/')[1].split('/')[0] === category_id)
+function Playlists({ category }) {
+  const { data: playlists, isLoading } = useQuery(['playlists', category], fetchPlaylists)
 
-  useQuery(['playlists', category_id], api.get(url.playlists(category_id)))
+  if (isLoading) return 'loading playlists ...'
 
   return (
     <Box>
-      {foundPlaylists &&
-        foundPlaylists.items.map((playlist, index) => (
-          <Playlist key={index} item={playlist} />
-        ))}
+      {playlists.map((playlist, index) => <Playlist key={index} item={playlist} />)}
     </Box>
   )
 }
 
 export default function Index() {
   const { category } = useParams()
-  const { data: categories } = useQuery('categories', api.get(url.categories))
-  const { data: playlists } = useQuery('playlists', api.get(url.playlists(category)))
+  const { data: categories, isLoading } = useQuery('categories', fetchCategories)
 
-  const foundCategory = categories?.find((item) => item.id === category)
-  useChangeTitle(foundCategory ? `React Spotify / ${foundCategory.name}` : 'React Spotify')
+  if (isLoading) return 'loading data ...'
+
+  const foundCategory = categories.find((item) => item.id === category)
+  // useChangeTitle(foundCategory ? `React Spotify / ${foundCategory.name}` : 'React Spotify')
 
   return (
     <Content>
@@ -78,9 +74,7 @@ export default function Index() {
         Playlists:
       </Text>
       <Header item={foundCategory} />
-      <Playlists 
-        category_id={category} 
-        playlists={playlists} />
+      <Playlists category={category} />
     </Content>
   )
 }

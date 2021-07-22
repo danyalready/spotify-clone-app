@@ -2,7 +2,6 @@ import React from 'react'
 import { Box, Button, Text, Image } from '@chakra-ui/core'
 import { play, pause } from 'shared/assets'
 import { toMinAndSec } from 'shared/utils/functions'
-import * as types from 'shared/constants/types'
 import { useTrackContext } from 'shared/service/track'
 
 const icons = [
@@ -24,7 +23,7 @@ function PlayButton({ item }) {
       height='100%'
       borderRadius='50%'
       background='none'
-      onClick={() => dispatch({ type: types.SET_TRACK, payload: item })}
+      onClick={() => dispatch({ type: 'SET_TRACK', payload: item })}
     >
       <Image 
         alt='icons' 

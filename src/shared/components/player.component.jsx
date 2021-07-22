@@ -19,7 +19,6 @@ import {
   volumeMin,
   volumeMax,
 } from 'shared/assets'
-import * as type from 'shared/constants/types'
 import { toMinAndSec } from 'shared/utils/functions'
 import api from 'shared/utils/api'
 import { useTrackContext } from 'shared/service/track'
@@ -119,7 +118,7 @@ function PlayerController({ isPaused, dispatch }) {
         border='none'
         borderRadius='50%'
         backgroundColor='#1DB954'
-        onClick={() => dispatch({ type: type.SET_PAUSED })}
+        onClick={() => dispatch({ type: 'SET_PAUSED' })}
       />
       <Button
         cursor='pointer'
