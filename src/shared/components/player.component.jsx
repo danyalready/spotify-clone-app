@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { 
-  useStateValue, 
-  useSetValue, 
-  useImageLoading,
-} from 'shared/hooks'
+import { useImageLoading} from 'shared/hooks'
 import {
   Grid,
   Box,
@@ -26,10 +22,11 @@ import {
 import * as type from 'shared/constants/types'
 import { toMinAndSec } from 'shared/utils/functions'
 import api from 'shared/utils/api'
+import { useTrackContext } from 'shared/service/track'
 
 function SoundSlider() {
   const [loudStatus, setLoudStatus] = useState(volumeMax)
-  const loudValue = useSetValue(70)
+  const loudValue = 70
 
   useEffect(() => {
     if (loudValue.value === 0) {
@@ -92,7 +89,6 @@ function CurrentTrack({ track }) {
 }
 
 function PlayerController({ isPaused, dispatch }) {
-  // TODO: needed in optimization
   return (
     <Box
       margin='0 auto'
@@ -160,7 +156,7 @@ function PlayerSlider({ track }) {
 }
 
 export default function Index() {
-  const [{ track, isPaused }, dispatch] = useStateValue()
+  const [{ track, isPaused }, dispatch] = useTrackContext()
   const controls = { track, isPaused, dispatch }
 
   // Premium is required :(

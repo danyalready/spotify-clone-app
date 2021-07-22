@@ -1,25 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary'
 
-export class ErrorBoundary extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      error: null,
-      errorInfo: null,
-    }
-  }
-
-  componentDidCatch(error, errorInfo) {
-    this.setState({
-      error,
-      errorInfo,
-    })
-  }
-
-  render() {
-    if (this.state.errorInfo) {
-      return <h1>Upps, app is crashed</h1>
-    }
-    return this.props.children
-  }
+export function ErrorBoundary({children}) {
+  return (
+    <ReactErrorBoundary fallbackRender={() => <h3>Error ...</h3>}>
+      {children}
+    </ReactErrorBoundary>
+  )
 }

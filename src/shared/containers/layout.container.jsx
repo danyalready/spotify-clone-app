@@ -1,23 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useStateValue } from 'shared/hooks'
 import { Box, Flex, Image, Button } from '@chakra-ui/core'
 import { Player } from 'shared/components'
-import { removeAuthToken } from 'shared/utils/authToken'
-import * as types from 'shared/constants/types'
+import { logOut } from 'shared/service/user'
 import { logo } from 'shared/assets'
+import { useUserContext } from 'shared/service/user'
 
 function SwitchButtons({ user, dispatch }) {
-  const logOut = () => {
-    dispatch({ type: types.SET_USER, payload: null })
-    dispatch({ type: types.SET_UNAUTHENTICATED })
-    removeAuthToken()
-  }
-
-  return user && <Button onClick={logOut}>Log out</Button>
+  return user && <Button onClick={() => logOut(dispatch)}>Log out</Button>
 }
 
-function Navbar(props) {
+function Navbar() {
+  const [user, dispatch] = useUserContext()
+
   return (
     <Box
       position='fixed'
@@ -37,7 +32,7 @@ function Navbar(props) {
         alignItems='center'
         justifyContent='space-between'
       >
-        <Link to={props.user ? '/' : '#'}>
+        <Link to={user ? '/' : '#'}>
           <Image 
             alt='spotify-logo' 
             src={logo} 
@@ -46,7 +41,7 @@ function Navbar(props) {
         <Flex 
           alignItems='center' 
           justifyContent='space-evenly'>
-          <SwitchButtons {...props} />
+          <SwitchButtons user={user} dispatch={dispatch} />
         </Flex>
       </Flex>
     </Box>
@@ -54,16 +49,12 @@ function Navbar(props) {
 }
 
 export default function Index({ children }) {
-  const [{ user }, dispatch] = useStateValue()
-
   return (
     <Box>
-      <Navbar 
-        user={user} 
-        dispatch={dispatch} />
+      <Navbar />
       <Box 
         maxWidth='900px' 
-        margin='120px auto' 
+        margin='12rem auto' 
         padding='0 1rem'>
         {children}
       </Box>

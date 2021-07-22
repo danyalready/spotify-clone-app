@@ -2,8 +2,8 @@ import React from 'react'
 import { Box, Button, Text, Image } from '@chakra-ui/core'
 import { play, pause } from 'shared/assets'
 import { toMinAndSec } from 'shared/utils/functions'
-import { useStateValue } from 'shared/hooks'
 import * as types from 'shared/constants/types'
+import { useTrackContext } from 'shared/service/track'
 
 const icons = [
   { alt: 'play-icon', src: play },
@@ -11,7 +11,7 @@ const icons = [
 ]
 
 function PlayButton({ item }) {
-  const [{}, dispatch] = useStateValue() // eslint-disable-line
+  const [, dispatch] = useTrackContext()
 
   return (
     <Button
@@ -59,11 +59,8 @@ export default function Index({ item }) {
         <Text>
           Artists:{' '}
           {item.track.artists.map((artist, index, self) => {
-            if (index === self.length - 1) {
-              return artist.name
-            } else {
-              return artist.name + ', '
-            }
+            if (index === self.length - 1) return artist.name
+            return artist.name + ', '
           })}
         </Text>
       </Box>

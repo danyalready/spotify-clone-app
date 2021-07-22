@@ -9,7 +9,6 @@ export default {
 }
 
 export const player = {
-  addPlayback: (id) =>
-    `https://api.spotify.com/v1/me/player/queue?uri=spotify:track:${id}`,
+  addPlayback: id => `https://api.spotify.com/v1/me/player/queue?uri=spotify:track:${id}`,
   currentPlayback: 'https://api.spotify.com/v1/me/player',
 }

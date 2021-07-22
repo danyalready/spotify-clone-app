@@ -1,10 +1,11 @@
 import React from 'react'
-import { useChangeTitle, useStateValue, useGetData } from 'shared/hooks'
+import { useChangeTitle } from 'shared/hooks'
 import { SimpleGrid, Text } from '@chakra-ui/core'
 import { Category } from 'shared/components'
 import { Content } from 'shared/containers'
 import url from 'shared/constants/urls'
-import * as types from 'shared/constants/types'
+import { useQuery } from 'react-query'
+import api from 'shared/utils/api'
 
 function Categories({ categories }) {
   return categories.map((category, index) => (
@@ -13,10 +14,8 @@ function Categories({ categories }) {
 }
 
 export default function Index() {
-  const [{ categories }] = useStateValue()
-
   useChangeTitle('React Spotify')
-  useGetData(url.categories, categories.length <= 1, types.SET_CATEGORIES)
+  const { data: categories } = useQuery('categories', api.get(url.categories))
 
   return (
     <Content>

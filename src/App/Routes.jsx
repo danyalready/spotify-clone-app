@@ -1,55 +1,25 @@
-import React, { lazy, Suspense } from 'react'
+import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-const Login = lazy(() => import('shared/pages/login.page'))
-const Home = lazy(() => import('shared/pages/home.page'))
-const Category = lazy(() => import('shared/pages/category.page'))
-const Playlist = lazy(() => import('shared/pages/playlist.page'))
+// const Login = lazy(() => import('shared/pages/login.page'))
+// const Home = lazy(() => import('shared/pages/home.page'))
+// const Category = lazy(() => import('shared/pages/category.page'))
+// const Playlist = lazy(() => import('shared/pages/playlist.page'))
+import Home from 'shared/pages/home.page'
+import Login from 'shared/pages/login.page'
+import Category from 'shared/pages/category.page'
+import Playlist from 'shared/pages/playlist.page'
+
+const routes = [
+  {path: '/login', component: Login},
+  {path: '/', component: Home},
+  {path: '/:category', component: Category},
+  {path: '/:category/:playlist_id', component: Playlist},
+]
 
 export default function Routes() {
-  return (
-    <Switch>
-      <Route
-        exact
-        strict
-        path='/login'
-        render={() => (
-          <Suspense fallback={<p>Loading ...</p>}>
-            <Login />
-          </Suspense>
-        )}
-      />
+  const routeComponents = routes.map((route, index) =>
+    <Route exact path={route.path} component={route.component} key={index} />)
 
-      <Route
-        exact
-        strict
-        path='/'
-        render={() => (
-          <Suspense fallback={<p>Loading ...</p>}>
-            <Home />
-          </Suspense>
-        )}
-      />
-      <Route
-        exact
-        strict
-        path='/:category'
-        render={() => (
-          <Suspense fallback={<p>Loading ...</p>}>
-            <Category />
-          </Suspense>
-        )}
-      />
-      <Route
-        exact
-        strict
-        path='/:category/:playlist_id'
-        render={() => (
-          <Suspense fallback={<p>Loading ...</p>}>
-            <Playlist />
-          </Suspense>
-        )}
-      />
-    </Switch>
-  )
+  return <Switch>{routeComponents}</Switch>
 }

@@ -7,9 +7,7 @@ import { useChangeTitle } from 'shared/hooks'
 export default function Login() {
   useChangeTitle('React Spotify / Login')
 
-  const loginFunction = () => {
-    window.location.href = accessUrl
-  }
+  const login = () => window.location.href = accessUrl
 
   return (
     <Content>
@@ -29,7 +27,7 @@ export default function Login() {
         <Button 
           variantColor='green' 
           size='lg' 
-          onClick={loginFunction}>
+          onClick={login}>
           Login
         </Button>
       </Box>

@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
 import { Text, Box } from '@chakra-ui/core'
 import { Header, Track } from 'shared/components'
 import { Content } from 'shared/containers'
-import { useStateValue } from 'shared/hooks'
-import { useGetData } from 'shared/hooks'
 import url from 'shared/constants/urls'
-import * as type from 'shared/constants/types'
+import api from 'shared/utils/api'
+import { useQuery } from 'react-query'
 
 function Tracks({ tracks }) {
   return tracks ? (
@@ -21,32 +20,9 @@ function Tracks({ tracks }) {
 }
 
 export default function Index() {
-  const { category, playlist_id } = useParams()
-  const [{ playlists, playlist, cachedTracks }, dispatch] = useStateValue()
-
-  // Setting up the playlist according to the plastlists
-  // Made to avoid extra API requests
-  useGetData(url.playlist(playlist_id), !playlists.length, type.SET_PLAYLIST)
-  useEffect(() => {
-    if (playlists.length) {
-      const foundPlaylists = playlists.find(
-        (playlists) =>
-          playlists.href.split('categories/')[1].split('/')[0] === category
-      )
-      const foundPlaylist = foundPlaylists.items.find(
-        (playlist) => playlist.id === playlist_id
-      )
-      dispatch({ type: type.SET_PLAYLIST, payload: foundPlaylist })
-    }
-
-    // eslint-disable-next-line
-  }, [])
-  useGetData(
-    url.tracks(playlist_id),
-    !cachedTracks[url.tracks(playlist_id)],
-    type.CACHE_TRACKS
-  )
-
+  const { playlist_id } = useParams()
+  const { playlist } = useQuery(['playlist', 'tracks'])
+  const { tracks } = useQuery(['tracks', playlist_id], api.get(url.tracks(playlist_id)))
   return (
     <Content>
       <Text 
@@ -63,7 +39,7 @@ export default function Index() {
           }
         }
       />
-      <Tracks tracks={cachedTracks[url.tracks(playlist_id)]} />
+      <Tracks tracks={tracks} />
     </Content>
   )
 }

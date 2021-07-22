@@ -1,16 +1,12 @@
 import React from 'react'
 import { useParams, Link } from 'react-router-dom'
-import {
-  useChangeTitle,
-  useStateValue,
-  useGetData,
-  useImageLoading,
-} from 'shared/hooks'
+import { useChangeTitle, useImageLoading } from 'shared/hooks'
 import { Box, Image, Text } from '@chakra-ui/core'
+import { useQuery } from 'react-query'
 import { Header } from 'shared/components'
 import { Content } from 'shared/containers'
 import url from 'shared/constants/urls'
-import * as type from 'shared/constants/types'
+import api from 'shared/utils/api'
 
 function Playlist({ item }) {
   const { category } = useParams()
@@ -51,11 +47,10 @@ function Playlist({ item }) {
 }
 
 function Playlists({ category_id, playlists }) {
-  const foundPlaylists = playlists.find(
-    (playlist) =>
-      playlist.href.split('categories/')[1].split('/')[0] === category_id
-  )
-  useGetData(url.playlists(category_id), !foundPlaylists, type.SET_PLAYLISTS)
+  const foundPlaylists = playlists.find(playlist =>
+    playlist.href.split('categories/')[1].split('/')[0] === category_id)
+
+  useQuery(['playlists', category_id], api.get(url.playlists(category_id)))
 
   return (
     <Box>
@@ -69,19 +64,11 @@ function Playlists({ category_id, playlists }) {
 
 export default function Index() {
   const { category } = useParams()
-  const [{ categories, playlists }] = useStateValue()
+  const { data: categories } = useQuery('categories', api.get(url.categories))
+  const { data: playlists } = useQuery('playlists', api.get(url.playlists(category)))
 
-  useGetData(
-    url.category(category),
-    !categories.length,
-    type.SET_CATEGORY,
-    categories
-  )
-
-  const foundCategory = categories.find((item) => item.id === category)
-  useChangeTitle(
-    foundCategory ? `React Spotify / ${foundCategory.name}` : 'React Spotify'
-  )
+  const foundCategory = categories?.find((item) => item.id === category)
+  useChangeTitle(foundCategory ? `React Spotify / ${foundCategory.name}` : 'React Spotify')
 
   return (
     <Content>
