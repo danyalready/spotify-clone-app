@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Button, Text, Image } from '@chakra-ui/core'
 import { play, pause } from 'shared/assets'
-import { toMinAndSec } from 'shared/utils/functions'
+import { toMinAndSec } from 'shared/utils/numbers'
 import { useTrackContext } from 'shared/service/track'
 
 const icons = [

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useImageLoading} from 'shared/hooks'
 import {
   Grid,
@@ -19,23 +19,28 @@ import {
   volumeMin,
   volumeMax,
 } from 'shared/assets'
-import { toMinAndSec } from 'shared/utils/functions'
+import { toMinAndSec } from 'shared/utils/numbers'
 import api from 'shared/utils/api'
 import { useTrackContext } from 'shared/service/track'
 
 function SoundSlider() {
   const [loudStatus, setLoudStatus] = useState(volumeMax)
-  const loudValue = 70
+  const [loudValue, setLoudValue] = useState(70)
+
+  const mutateLoudStatus = useCallback(function() {
+    if (loudValue === 0) setLoudStatus(volumeMute)
+    else if (loudValue <= 45) setLoudStatus(volumeMin)
+    else setLoudStatus(volumeMax)
+  }, [loudValue])
 
   useEffect(() => {
-    if (loudValue.value === 0) {
-      setLoudStatus(volumeMute)
-    } else if (loudValue.value <= 45) {
-      setLoudStatus(volumeMin)
-    } else {
-      setLoudStatus(volumeMax)
-    }
-  }, [loudValue])
+    mutateLoudStatus()
+  }, [mutateLoudStatus])
+
+  function mute() {
+    if (loudStatus !== volumeMute) setLoudStatus(volumeMute)
+    else mutateLoudStatus()
+  }
 
   return (
     <Box
@@ -60,8 +65,13 @@ function SoundSlider() {
           backgroundColor='rgba(0,0,0,0)'
           border='none'
           borderRadius='50%'
+          onClick={mute}
         />
-        <Slider color='green' margin='0 1rem' {...loudValue}>
+        <Slider
+          color='green'
+          margin='0 1rem'
+          value={loudValue}
+          onChange={setLoudValue}>
           <SliderTrack />
           <SliderFilledTrack />
           <SliderThumb />
